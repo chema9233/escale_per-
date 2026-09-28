@@ -546,6 +546,7 @@
     n8nLeadUrl: ""           // ← URL del webhook de leads de n8n
   };
 </script>
-<script src="widget/escale-agente.js" defer></script>
+<!-- Busca el widget en /widget; si no está ahí, lo busca junto a index.html -->
+<script src="widget/escale-agente.js" defer onerror="var s=document.createElement('script');s.src='escale-agente.js';document.body.appendChild(s)"></script>
 </body>
 </html>
