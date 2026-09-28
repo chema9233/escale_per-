@@ -11,6 +11,16 @@ que el visitante puede usar de 5 formas desde cualquier punto de la página.
 > Hace falta internet: el logo, las portadas de los cursos y los sellos ISO se cargan
 > directamente desde escale.edu.pe. Si el logo no carga, aparece una versión redibujada en SVG.
 
+## Publicarla en Easypanel (subdominio propio)
+El repositorio incluye `Dockerfile` y `nginx.conf`: Easypanel construye un contenedor Nginx que sirve la web.
+1. Easypanel → proyecto → **+ Servicio → App** (nombre `escale-web`).
+2. **Origen: GitHub** → repositorio `chema9233/escale_per-`, rama `main`, ruta `/`.
+   **Construcción: Dockerfile** (archivo `Dockerfile`). Guardar y **Implementar**.
+3. **Dominios** → añadir el subdominio (p. ej. `escale.fluentia.marketing`), puerto **80**, HTTPS activado.
+4. En el proveedor DNS del dominio: registro **A** con el nombre del subdominio apuntando a la IP del servidor.
+5. En ElevenLabs → agente → *Security*: añadir el subdominio a la lista de dominios permitidos.
+Cada `git push` a `main` se publica pulsando **Implementar** (o activando el despliegue automático).
+
 ## Qué hay en esta carpeta
 
 | Archivo | Para qué sirve |
