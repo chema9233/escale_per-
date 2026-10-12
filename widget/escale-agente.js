@@ -31,6 +31,8 @@
     // --- WhatsApp ---
     whatsapp: "51933097424",               // verificado en escale.edu.pe (sep-2026)
     mensajeWhatsapp: "Hola, vengo de la web de Escale y quiero información sobre sus cursos.",
+    // --- Privacidad (Ley 29733, Perú) ---
+    politicaPrivacidad: "https://escale.edu.pe/politica-de-privacidad/",
     // --- Comportamiento ---
     saludoProactivoSegundos: 8,            // 0 = desactivado
     saludoProactivo: "¿Te ayudo a elegir tu curso?",
@@ -118,6 +120,7 @@
 .esc-ok{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.5}
 .esc-ok svg{color:#12a150;margin-top:2px}
 .esc-legal{font-size:11px;color:var(--esc-mut);margin-top:8px;line-height:1.4}
+.esc-legal a,.esc-form label a{color:inherit;text-decoration:underline}
 .esc-foot{text-align:center;font-size:11px;color:var(--esc-mut);padding:6px 0 10px}
 .esc-demo{font-size:11px;background:#fff4e5;color:#8a4b00;border-radius:8px;padding:6px 9px;margin-bottom:10px}
 `;
@@ -157,6 +160,7 @@
         <button class="esc-chip">¿Dan certificado?</button>
       </div>
       <form class="esc-input"><input type="text" placeholder="Escribe tu pregunta…" aria-label="Mensaje" required><button type="submit">Enviar</button></form>
+      <p class="esc-legal">Te atiende una asistente de IA. Al escribir aceptas que tratemos tus mensajes según nuestra <a href="${CFG.politicaPrivacidad}" target="_blank" rel="noopener">política de privacidad</a> (Ley N.° 29733).</p>
     </div>
     <!-- VOZ -->
     <div class="esc-view esc-voice" data-view="voz">
@@ -165,6 +169,7 @@
       <div class="esc-vstatus">Pulsa para empezar a hablar. Te pediremos permiso para usar el micrófono.</div>
       <div class="esc-vlast"></div>
       <button class="esc-btn esc-vbtn">${IC.mic}<span>Empezar conversación</span></button>
+      <p class="esc-legal">Al pulsar «Empezar conversación» aceptas que la conversación con nuestra asistente de IA se grabe y se trate según nuestra <a href="${CFG.politicaPrivacidad}" target="_blank" rel="noopener">política de privacidad</a> (Ley N.° 29733).</p>
     </div>
     <!-- FORM -->
     <div class="esc-view" data-view="form">
@@ -175,9 +180,9 @@
         <label>Correo</label><input name="email" type="email" autocomplete="email">
         <label>¿Qué te interesa?</label>
         <select name="interes"><option>Aún no lo sé, quiero orientación</option><option>Un curso concreto</option><option>Formas de pago</option><option>Avisarme de próximas ediciones</option></select>
-        <label style="display:flex;gap:8px;align-items:flex-start;color:var(--esc-mut)"><input type="checkbox" name="acepto" required style="width:auto;margin-top:3px">Acepto ser contactado y la política de privacidad.</label>
+        <label style="display:flex;gap:8px;align-items:flex-start;color:var(--esc-mut)"><input type="checkbox" name="acepto" required style="width:auto;margin-top:3px"><span>Acepto ser contactado por ESCALE y la <a href="${CFG.politicaPrivacidad}" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
         <button class="esc-btn" type="submit">Quiero que me llamen</button>
-        <p class="esc-legal">Tus datos se usan solo para informarte sobre ${CFG.marca}.</p>
+        <p class="esc-legal">Responsable: CENTRO DE FORMACIÓN IMG INTEGRUM S.A.C. (ESCALE). Usamos tus datos solo para informarte sobre nuestros programas (Ley N.° 29733). Derechos ARCO: admisiones@escale.edu.pe.</p>
       </form>
     </div>
   </div>

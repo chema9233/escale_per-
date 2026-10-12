@@ -108,6 +108,16 @@ Las 5 opciones del widget están conectadas de verdad (ya no es modo demo):
 Los dos flujos solo aceptan llamadas desde `escale.fluentia.marketing` y `escale.edu.pe` (CORS):
 abriendo `index.html` con doble clic, el chat y el formulario no conectarán.
 
+### Agente de llamadas salientes (prueba, 12-10-2026)
+ElevenLabs · `Escale – Llamada a leads` (`agent_0001m4rfgpybfn69bva1mn3cpj1p`), copia de "Rellamada Fluentia (ES)" adaptada a Escale.
+Variables: `customer_name`, `curso`. Aún NO está conectado al flujo de leads: solo pruebas manuales.
+
+### Privacidad (Ley N.° 29733)
+- Widget de la web: aviso con enlace a https://escale.edu.pe/politica-de-privacidad/ en voz, chat y formulario.
+- Widgets de ElevenLabs de los dos agentes: aviso de términos en español (responsable, finalidad, IA, proveedores fuera del Perú, derechos ARCO).
+- El agente de llamadas da el aviso de grabación al empezar.
+- **Pendiente:** que Escale (o su asesor legal) valide los textos.
+
 ### Pendiente: voz con OpenRouter
 1. ElevenLabs → *Workspace → Secrets* → crear un secreto con la API key de OpenRouter.
 2. Agente → *LLM* → **Custom LLM**: URL `https://openrouter.ai/api/v1`, modelo (p. ej. `deepseek/deepseek-v4-flash-0731`) y el secreto como API key.
