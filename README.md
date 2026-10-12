@@ -95,6 +95,24 @@ Al final de `index.html` (o en la web del cliente):
 - **La web de Escale es WordPress**: plugin *WPCode* → "Añadir fragmento" → HTML → ubicación *Footer* → pegar lo de arriba.
 - Colores y nombre del agente se cambian en esa misma configuración: `colorPrincipal`, `colorAcento`, `colorWhatsapp` (verde del botón de WhatsApp), `nombreAgente`.
 
+## Estado de la conexión (12-10-2026)
+Las 5 opciones del widget están conectadas de verdad (ya no es modo demo):
+
+| Pieza | Dónde vive | Qué hace |
+|---|---|---|
+| Chat ("Escribir al asistente" y "Ayúdame a elegir curso") | n8n · `Escale · Chat de Sofía (OpenRouter)` | Agente Sofía con OpenRouter (DeepSeek), memoria por conversación y herramienta `registrar_lead`. |
+| Formulario "Que me llame un asesor" + leads del chat y de la voz | n8n · `Escale · Leads de Sofía (widget, chat y voz)` → webhook `/webhook/escale/lead` | Guarda el contacto en la tabla de n8n **escale_leads** y avisa por email a admisiones@escale.edu.pe (Brevo) y por WhatsApp al +51 933 097 424 (Evolution, instancia "bot whatsapp fluentia"). |
+| Voz | ElevenLabs · agente `agent_1701m3m828zfegy8kd0atavyepva` | Herramienta webhook `registrar_lead` que envía al mismo flujo de leads. El "cerebro" sigue siendo el modelo de ElevenLabs hasta que se configure OpenRouter como *Custom LLM* (ver abajo). |
+| WhatsApp | wa.me | Botón en verde WhatsApp (`colorWhatsapp`). |
+
+Los dos flujos solo aceptan llamadas desde `escale.fluentia.marketing` y `escale.edu.pe` (CORS):
+abriendo `index.html` con doble clic, el chat y el formulario no conectarán.
+
+### Pendiente: voz con OpenRouter
+1. ElevenLabs → *Workspace → Secrets* → crear un secreto con la API key de OpenRouter.
+2. Agente → *LLM* → **Custom LLM**: URL `https://openrouter.ai/api/v1`, modelo (p. ej. `deepseek/deepseek-v4-flash-0731`) y el secreto como API key.
+3. Probar latencia en una llamada antes de dejarlo fijo.
+
 ## Pendiente de confirmar con Escale
 - Colores exactos de marca y logo en SVG (ahora se usa el PNG de su web).
 - Entidad que certificó sus normas ISO: si quieren mostrar el **sello oficial de la certificadora**

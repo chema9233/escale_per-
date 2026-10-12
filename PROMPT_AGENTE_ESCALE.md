@@ -15,16 +15,15 @@ Dudas que solo Escale puede resolver (el agente las deriva a un asesor):
   septiembre a enero dos días por semana, así que parece un error de su web.
 - Horario de los cursos que su ficha marca como "Próximamente".
 
-## Estado en ElevenLabs (agente `agent_1701m3m828zfegy8kd0atavyepva`, 28-09-2026)
-La versión cargada en el agente de **voz** es este prompt con dos diferencias, hasta que exista el webhook de leads en n8n:
-- Sin la herramienta `registrar_lead`: Sofía invita a escribir por WhatsApp o a usar el botón "Que me llame un asesor",
-  y tiene prohibido decir que ha guardado datos.
-- Con la herramienta de sistema `end_call` activada.
+## Estado en ElevenLabs (agente `agent_1701m3m828zfegy8kd0atavyepva`, 12-10-2026)
+- Cargado el bloque de abajo con la herramienta webhook `registrar_lead` (→ n8n `/webhook/escale/lead`),
+  más una instrucción de voz: repetir el WhatsApp dígito a dígito antes de registrarlo.
+- Herramienta de sistema `end_call` activada. Zona horaria America/Lima.
 - Primer mensaje: "Hola, soy Sofía, asesora de Escale. ¿Qué te gustaría conseguir en tu carrera profesional?"
-- Zona horaria America/Lima.
 
-Cuando el webhook de n8n esté listo, se añade `registrar_lead` como herramienta *Webhook* en ElevenLabs
-y se vuelve a pegar el bloque de abajo tal cual.
+## Estado en n8n (chat de texto, 12-10-2026)
+Workflow `Escale · Chat de Sofía (OpenRouter)`: mismo bloque, sin `end_call` ni la sección de pronunciación,
+con respuestas en texto plano y la fecha actual de Lima añadida al final.
 
 ---
 
