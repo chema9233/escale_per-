@@ -123,6 +123,17 @@ Variables: `customer_name`, `curso`. Aún NO está conectado al flujo de leads: 
 - En n8n, el flujo "AGENTE WHATSAPP IA FLUENTIA" hace de repartidor: si el mensaje contiene "Escale" (o ese teléfono habló con Escale en las últimas 24 h) responde el subflujo **"Escale · WhatsApp Sofía"**; "#reset" vuelve al agente de Fluentia.
 - Limitación del número de prueba: solo contesta a los teléfonos dados de alta como destinatarios en la app de Meta.
 - Para volver al número real de Escale: borrar la línea `whatsapp:` de `index.html`.
+- **Probado el 12-10-2026 desde el móvil de José:**
+  - Sofía responde en unos 12 s, con "escribiendo…" y el doble check azul.
+  - Guarda el lead en `escale_leads` y avisa a admisiones por email y WhatsApp.
+- **Quién llama al lead:** una persona de admisiones de Escale. Ninguna llamada automática está conectada.
+- **El aviso de privacidad** lo añade n8n, solo en el primer mensaje de la conversación.
+- **Pendiente:**
+  - Avisar a Escale de que los leads del 12-10 eran pruebas.
+  - Modo prueba, para que los leads del teléfono de José no lleguen a Escale.
+  - Que Sofía pregunte la zona horaria cuando el lead no está en Perú.
+  - Un número real de WhatsApp para producción.
+- El detalle técnico y el código de los flujos están en el repo `02_Tecnico`, carpeta `N8N/Agente WhatsApp IA (Fluentia + Escale)/`.
 
 ### Pendiente: voz con OpenRouter
 1. ElevenLabs → *Workspace → Secrets* → crear un secreto con la API key de OpenRouter.
