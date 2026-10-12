@@ -19,6 +19,8 @@ Dudas que solo Escale puede resolver (el agente las deriva a un asesor):
 - Cargado el bloque de abajo con la herramienta webhook `registrar_lead` (→ n8n `/webhook/escale/lead`),
   más una instrucción de voz: repetir el WhatsApp dígito a dígito antes de registrarlo.
 - Herramienta de sistema `end_call` activada. Zona horaria America/Lima.
+- Ahorro de minutos (12-10-2026): cuelga tras 20 s de silencio, duración máxima 5 min, y sección extra
+  "# Brevedad" en el prompt de voz (máx. 2 frases / ~30 palabras por turno, un curso por turno, sin introducciones).
 - Primer mensaje: "Hola, soy Sofía, asesora de Escale. ¿Qué te gustaría conseguir en tu carrera profesional?"
 
 ## Estado en n8n (chat de texto, 12-10-2026)
