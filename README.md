@@ -118,6 +118,12 @@ Variables: `customer_name`, `curso`. Aún NO está conectado al flujo de leads: 
 - El agente de llamadas da el aviso de grabación al empezar.
 - **Pendiente:** que Escale (o su asesor legal) valide los textos.
 
+### WhatsApp con agente IA (demo, 12-10-2026)
+- El botón verde abre el **número de prueba de Meta +1 555-661-5253** (no el de Escale) con el texto "Hola, vengo de la web de Escale…".
+- En n8n, el flujo "AGENTE WHATSAPP IA FLUENTIA" hace de repartidor: si el mensaje contiene "Escale" (o ese teléfono habló con Escale en las últimas 24 h) responde el subflujo **"Escale · WhatsApp Sofía"**; "#reset" vuelve al agente de Fluentia.
+- Limitación del número de prueba: solo contesta a los teléfonos dados de alta como destinatarios en la app de Meta.
+- Para volver al número real de Escale: borrar la línea `whatsapp:` de `index.html`.
+
 ### Pendiente: voz con OpenRouter
 1. ElevenLabs → *Workspace → Secrets* → crear un secreto con la API key de OpenRouter.
 2. Agente → *LLM* → **Custom LLM**: URL `https://openrouter.ai/api/v1`, modelo (p. ej. `deepseek/deepseek-v4-flash-0731`) y el secreto como API key.
