@@ -19,7 +19,7 @@ El repositorio incluye `Dockerfile` y `nginx.conf`: Easypanel construye un conte
 3. **Dominios** → añadir el subdominio (p. ej. `escale.fluentia.marketing`), puerto **80**, HTTPS activado.
 4. En el proveedor DNS del dominio: registro **A** con el nombre del subdominio apuntando a la IP del servidor.
 5. En ElevenLabs → agente → *Security*: añadir el subdominio a la lista de dominios permitidos.
-Cada `git push` a `main` se publica pulsando **Implementar** (o activando el despliegue automático).
+Cada `git push` a `main` se publica solo: webhook de GitHub → "Activación de implementación" de Easypanel (configurado el 12-10-2026).
 
 ## Qué hay en esta carpeta
 
