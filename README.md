@@ -93,7 +93,7 @@ Al final de `index.html` (o en la web del cliente):
 ```
 
 - **La web de Escale es WordPress**: plugin *WPCode* → "Añadir fragmento" → HTML → ubicación *Footer* → pegar lo de arriba.
-- Colores y nombre del agente se cambian en esa misma configuración: `colorPrincipal`, `colorAcento`, `nombreAgente`.
+- Colores y nombre del agente se cambian en esa misma configuración: `colorPrincipal`, `colorAcento`, `colorWhatsapp` (verde del botón de WhatsApp), `nombreAgente`.
 
 ## Pendiente de confirmar con Escale
 - Colores exactos de marca y logo en SVG (ahora se usa el PNG de su web).

@@ -21,6 +21,7 @@
     colorPrincipal: "#27336E",             // azul del logo de Escale (medido a ojo: confirmar con su manual de marca)
     colorAcento: "#D9A423",                // dorado del logo de Escale (ídem)
     colorTextoAcento: "#1C2555",           // texto sobre el dorado (el blanco no se lee bien)
+    colorWhatsapp: "#25D366",              // verde oficial de WhatsApp (botón "Ir a WhatsApp")
     // --- Voz (ElevenLabs Agents) ---
     elevenlabsAgentId: "",                 // p.ej. "agent_01abc..." (agente PÚBLICO)
     // --- Texto (n8n: nodo "Chat Trigger", modo público) ---
@@ -53,7 +54,7 @@
 
   /* ---------------------------------------------------------------- estilos */
   const css = `
-.esc-root{--esc-p:${CFG.colorPrincipal};--esc-a:${CFG.colorAcento};--esc-on-a:${CFG.colorTextoAcento};--esc-bg:#fff;--esc-tx:#1a1f36;--esc-mut:#667085;--esc-br:#e4e7ec;--esc-soft:#f4f5fa;
+.esc-root{--esc-p:${CFG.colorPrincipal};--esc-a:${CFG.colorAcento};--esc-on-a:${CFG.colorTextoAcento};--esc-wa:${CFG.colorWhatsapp};--esc-bg:#fff;--esc-tx:#1a1f36;--esc-mut:#667085;--esc-br:#e4e7ec;--esc-soft:#f4f5fa;
   position:fixed;right:20px;bottom:20px;z-index:2147483000;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--esc-tx)}
 @media (prefers-color-scheme:dark){.esc-root{--esc-bg:#141a33;--esc-tx:#eef1f8;--esc-mut:#9aa3b8;--esc-br:#283052;--esc-soft:#1c2440}}
 .esc-root *{box-sizing:border-box}
@@ -88,6 +89,9 @@
 .esc-opt:hover{border-color:var(--esc-a);transform:translateX(2px)}
 .esc-opt .i{width:36px;height:36px;border-radius:10px;background:var(--esc-p);color:#fff;display:grid;place-items:center;flex:none}
 .esc-opt .i svg{width:18px;height:18px}
+.esc-opt.wa{border-color:var(--esc-wa);background:color-mix(in srgb,var(--esc-wa) 10%,var(--esc-bg))}
+.esc-opt.wa:hover{border-color:var(--esc-wa);background:color-mix(in srgb,var(--esc-wa) 18%,var(--esc-bg))}
+.esc-opt.wa .i{background:var(--esc-wa)}
 .esc-opt b{display:block;font-size:14px}.esc-opt span{font-size:12.5px;color:var(--esc-mut)}
 .esc-msgs{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-bottom:8px}
 .esc-m{max-width:85%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}
@@ -140,7 +144,7 @@
       <button class="esc-opt" data-go="chat"><span class="i">${IC.chat}</span><div><b>Escribir al asistente</b><span>Resuelve tus dudas por chat</span></div></button>
       <button class="esc-opt" data-go="chat" data-prompt="Quiero que me ayudes a elegir el programa ideal para mí."><span class="i">${IC.target}</span><div><b>Ayúdame a elegir curso</b><span>3 preguntas y te recomiendo uno</span></div></button>
       <button class="esc-opt" data-go="form"><span class="i">${IC.phone}</span><div><b>Quiero que me llame un asesor</b><span>Déjanos tus datos y te contactamos</span></div></button>
-      <button class="esc-opt" data-go="wa"><span class="i">${IC.wa}</span><div><b>Ir a WhatsApp</b><span>Habla con el equipo de admisiones</span></div></button>
+      <button class="esc-opt wa" data-go="wa"><span class="i">${IC.wa}</span><div><b>Ir a WhatsApp</b><span>Habla con el equipo de admisiones</span></div></button>
     </div>
     <!-- CHAT -->
     <div class="esc-view" data-view="chat">
