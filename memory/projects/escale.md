@@ -3,7 +3,7 @@
 **Repositorio:** `chema9233/escale_per-`
 **Rama de trabajo:** `claude/adoring-ritchie-iht6pu`
 **Cliente:** Escale (escale.edu.pe) — Escuela de Alta Especialización, Lima, Perú
-**Estado:** Conexión real activa (12-10-2026). Deploy automático a Easypanel.
+**Estado:** Conexión real activa (16-10-2026). Deploy automático a Easypanel.
 
 ## Qué se entregó
 
@@ -35,7 +35,8 @@ En WordPress: plugin WPCode → HTML → Footer.
 Parámetros de color: `colorPrincipal`, `colorAcento`, `colorWhatsapp`, `nombreAgente`.
 
 ### 3. `PROMPT_AGENTE_ESCALE.md` — Prompt de Sofía
-Mismo prompt para voz (ElevenLabs) y texto (n8n).
+Prompt base con variantes para voz (ElevenLabs) y chat (n8n).
+Versión SPIN activa desde 16-10-2026: flujo Situación → Problema → Implicación → Recomendación → Captura, con 5 puntos de dolor del profesional peruano.
 
 ## Infraestructura conectada (12-10-2026)
 
@@ -52,7 +53,8 @@ Mismo prompt para voz (ElevenLabs) y texto (n8n).
 | Deploy | Easypanel · servicio `escale-web` | Webhook GitHub → auto-deploy en cada push a `main` |
 | Subdominio demo | `escale.fluentia.marketing` | CORS configurado aquí y en `escale.edu.pe` |
 
-**Payload del lead:** `nombre, telefono, email, interes, origen, pagina, fecha, sessionId`
+**Payload del lead:** `nombre, telefono, email, programa_interes, objetivo, dolor_principal, intencion, resumen, canal, sessionId`
+(dolor_principal e intencion: campos nuevos opcionales — llegan al webhook pero se ignoran hasta mapearlos en `Escale · Leads de Sofía`)
 
 ## Cursos activos (a 28-09-2026, revisar mensualmente)
 
@@ -68,7 +70,7 @@ Mismo prompt para voz (ElevenLabs) y texto (n8n).
 - PAE Derecho para Alta Gerencia — Renzo Petrozzi — hasta 28-ene-2027 — S/ 6.500
 - CAE Customer Experience — Deepak Nandwani — hasta 2-nov-2026
 - CAE Dirección Comercial B2B — Álvaro Acuña Turati — hasta 20-oct-2026
-- CAE Insights y Campañas Publicitarias — Carlos Dulanto — hasta 1-oct-2026
+- ~~CAE Insights y Campañas Publicitarias — Carlos Dulanto — terminó 1-oct-2026~~
 
 ### Próximamente (sin fecha)
 - CAE Gerencia de Marketing y Gestión Comercial — Carlos Palomino
@@ -96,6 +98,16 @@ Mismo prompt para voz (ElevenLabs) y texto (n8n).
 - [ ] Activar OpenRouter como Custom LLM en voz (ElevenLabs → Workspace Secrets → Custom LLM)
 - [ ] Cambiar WhatsApp demo (Meta `+1 555-661-5253`) por número real de Escale (+51 933 097 424)
 - [ ] Validar que Escale (WordPress) pegue el snippet con WPCode en footer
+
+## Historial de cambios
+
+### 16-10-2026 — Prompt SPIN
+- `PROMPT_AGENTE_ESCALE.md` actualizado: metodología SPIN + 5 puntos de dolor + guardrail objeciones. SHA: `2e809cc`
+- ElevenLabs `agent_1701m3m828zfegy8kd0atavyepva` → versión `agtvrsn_8901m52xgpb4fhqt072yjdmv0p5b`
+- n8n `Escale · Chat de Sofía (OpenRouter)` (ID: `Qt0ZE5ckOvz4yMxx`) → system prompt SPIN aplicado
+- `registrar_lead` ampliado: +`dolor_principal` +`intencion` (campos opcionales)
+
+---
 
 ## Notas de diseño
 - Sin GIFs: animaciones CSS puras (scroll fade-in, contadores, barras, brillo dorado, cinta empresas)

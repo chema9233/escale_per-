@@ -44,6 +44,9 @@ Este repo es el diseño web + widget IA para **Escale** (cliente peruano).
 | **escale.fluentia.marketing** | Subdominio de demo/producción del rediseño |
 | **Evolution** | Instancia WhatsApp de Fluentia usada para avisos (`bot whatsapp fluentia`) |
 | **OpenRouter** | Proveedor LLM usado en n8n (modelo DeepSeek) |
+| **SPIN** | Metodología de venta consultiva: Situación → Problema → Implicación → Recomendación → Captura |
+| **dolor_principal** | Campo de lead: cuál de los 5 dolores tiene el visitante (estancamiento, obsolescencia, empresa-no-forma, necesita-aval, hartura-teoria) |
+| **intencion** | Campo de lead: intención de compra alta / media / baja |
 
 → Glosario completo: memory/glossary.md
 
