@@ -26,7 +26,7 @@ Cada `git push` a `main` se publica solo: webhook de GitHub → "Activación de 
 | Archivo | Para qué sirve |
 |---|---|
 | `index.html` | La home rediseñada. |
-| `widget/escale-agente.js` | El agente IA en un solo archivo. Se puede pegar en **cualquier** web (también en la actual de Escale, sin rediseñarla). |
+| `widget/escale-agente.js` | El agente IA en un solo archivo. Se puede pegar en **cualquier** web (también en la actual de Escale, sin rediseñarla). Incluye clasificación de leads en tiempo real. |
 | `PROMPT_AGENTE_ESCALE.md` | Instrucciones de "Sofía" para ElevenLabs (voz) y n8n (texto), con los cursos reales. |
 
 ## De dónde salen los datos
@@ -107,6 +107,29 @@ Las 5 opciones del widget están conectadas de verdad (ya no es modo demo):
 
 Los dos flujos solo aceptan llamadas desde `escale.fluentia.marketing` y `escale.edu.pe` (CORS):
 abriendo `index.html` con doble clic, el chat y el formulario no conectarán.
+
+### Clasificación de leads en tiempo real (16-10-2026)
+El widget clasifica la intención de compra de cada mensaje y muestra un botón CTA automático:
+
+| Señal detectada | `lead_temp` | Botón que aparece |
+|---|---|---|
+| "precio", "cuesta", "pago", "inversión", "matrícula" | `hot` | Botón dorado sólido: **"Sí, que me llame un asesor →"** |
+| "programa", "curso", "certificación", "mentor", "recomienda" | `warm` | Botón sutil: **"¿Prefieres hablar con un asesor?"** |
+| "online", "duración", "horas" y preguntas generales | `cold` | Sin CTA (comportamiento anterior) |
+
+El botón aparece una sola vez por conversación (`escalaEscalado`) y abre directamente el formulario de contacto.
+
+**En modo demo** (sin n8n): la clasificación la hace el propio widget por palabras clave — funciona sin configurar nada.  
+**En producción**: n8n debe devolver `{ output: "...", lead_temp: "hot"|"warm"|"cold" }`. Añadir un nodo **Code** en `Escale · Chat de Sofía (OpenRouter)` entre el AI Agent y la respuesta:
+
+```javascript
+const msg = ($input.item.json.chatInput || "").toLowerCase();
+const resp = ($input.item.json.output || "").toLowerCase();
+let lead_temp = "cold";
+if (/precio|cuesta|pago|inversi|matricul|inscrib/.test(msg + resp)) lead_temp = "hot";
+else if (/curso|programa|certific|recomiend|mentor|inicio|empiez/.test(msg + resp)) lead_temp = "warm";
+return [{ json: { output: $input.item.json.output, lead_temp } }];
+```
 
 ### Agente de llamadas salientes (prueba, 12-10-2026)
 ElevenLabs · `Escale – Llamada a leads` (`agent_0001m4rfgpybfn69bva1mn3cpj1p`), copia de "Rellamada Fluentia (ES)" adaptada a Escale.
