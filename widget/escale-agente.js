@@ -388,6 +388,23 @@
 .esc-ok svg{color:#3EE07A;margin-top:2px;flex-shrink:0}
 .esc-legal{font-size:11px;color:var(--esc-mut);margin-top:8px;line-height:1.4}
 
+/* ---- CTA escalada (lead warm/hot) ---- */
+.esc-escalada{
+  align-self:stretch;border:1px solid rgba(217,164,35,.4);
+  background:linear-gradient(135deg,rgba(217,164,35,.15),rgba(217,164,35,.06));
+  color:var(--esc-a);border-radius:12px;
+  padding:10px 14px;font-size:13px;font-weight:600;
+  cursor:pointer;text-align:center;font-family:inherit;line-height:1.3;
+  transition:border-color .15s,background .15s;margin-top:2px
+}
+.esc-escalada:hover{border-color:var(--esc-a);background:rgba(217,164,35,.22)}
+.esc-escalada.hot{
+  background:linear-gradient(135deg,var(--esc-a),var(--esc-a2));
+  color:var(--esc-on-a);border-color:transparent;
+  box-shadow:0 4px 16px rgba(217,164,35,.35)
+}
+.esc-escalada.hot:hover{box-shadow:0 6px 24px rgba(217,164,35,.5);opacity:.92}
+
 /* ---- Footer ---- */
 .esc-foot{
   text-align:center;font-size:10.5px;color:var(--esc-mut);
@@ -596,6 +613,8 @@
     } catch (e) { return "s-" + Math.random().toString(36).slice(2); }
   })();
   let chatIniciado = false;
+  let estadoLead = "cold";
+  let escalaEscalado = false;
 
   function pintar(txt, quien) {
     const d = document.createElement("div");
@@ -620,26 +639,30 @@
     t.className = "esc-typing";
     t.textContent = `${CFG.nombreAgente} está escribiendo…`;
     $(".esc-msgs").appendChild(t);
-    let respuesta;
+    let respuesta, leadTemp;
     try {
       if (DEMO_TEXTO) {
         await new Promise((r) => setTimeout(r, 900));
-        respuesta = respuestaDemo(texto);
+        const demo = respuestaDemo(texto);
+        respuesta = demo.texto;
+        leadTemp = demo.lead_temp;
       } else {
         const r = await fetch(CFG.n8nChatUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "sendMessage", sessionId, chatInput: texto, metadata: { pagina: location.href } }),
+          body: JSON.stringify({ action: "sendMessage", sessionId, chatInput: texto, metadata: { pagina: location.href, lead_temp: estadoLead } }),
         });
         const data = await r.json();
         const d0 = Array.isArray(data) ? data[0] : data;
         respuesta = (d0 && d0.output) || "Perdona, no he podido responder. ¿Lo intentas de nuevo?";
+        leadTemp = d0 && d0.lead_temp;
       }
     } catch (e) {
       respuesta = "Ahora mismo tengo un problema de conexión. Si quieres, escríbenos directamente y te atendemos enseguida.";
     }
     t.remove();
     pintar(respuesta, "bot");
+    if (leadTemp) manejarClasificacion(leadTemp);
     track("esc_chat_mensaje");
   }
   $(".esc-input").onsubmit = (e) => {
@@ -653,21 +676,38 @@
   $$(".esc-chip").forEach((c) => (c.onclick = () => enviar(c.textContent)));
 
   // Respuestas demo con datos reales de escale.edu.pe (oct-2026)
+  // Devuelve { texto, lead_temp } — lead_temp es la clasificación Jev simulada
   function respuestaDemo(t) {
     t = t.toLowerCase();
     if (t.includes("elegir") || t.includes("recomiend"))
-      return "Perfecto. Para recomendarte bien, 3 preguntas rápidas:\n1) ¿Cuál es tu cargo y en qué sector trabajas?\n2) ¿Qué quieres conseguir (ascender, liderar un área, emprender)?\n3) ¿Te viene mejor entre semana por la noche o sábado por la mañana?";
+      return { texto: "Perfecto. Para recomendarte bien, 3 preguntas rápidas:\n1) ¿Cuál es tu cargo y en qué sector trabajas?\n2) ¿Qué quieres conseguir (ascender, liderar un área, emprender)?\n3) ¿Te viene mejor entre semana por la noche o sábado por la mañana?", lead_temp: "warm" };
     if (t.includes("pronto") || t.includes("empiez") || t.includes("inicio") || t.includes("curso") || t.includes("programa"))
-      return "Estos empiezan en octubre:\n• Marketing para Restaurantes – 10 oct (sáb.)\n• Reputación Corporativa y Crisis – 13 oct (mar.)\n• Neuro Branding – 15 oct (jue.)\n• Compras y Abastecimiento – 20 oct (mar.)\n¿Cuál te llama más la atención?";
+      return { texto: "Estos empiezan en octubre:\n• Marketing para Restaurantes – 10 oct (sáb.)\n• Reputación Corporativa y Crisis – 13 oct (mar.)\n• Neuro Branding – 15 oct (jue.)\n• Compras y Abastecimiento – 20 oct (mar.)\n¿Cuál te llama más la atención?", lead_temp: "warm" };
     if (t.includes("online") || t.includes("digital") || t.includes("presencial"))
-      return "Sí, todas las clases son online en vivo: te conectas con tu mentor y tus compañeros en el horario del curso.";
+      return { texto: "Sí, todas las clases son online en vivo: te conectas con tu mentor y tus compañeros en el horario del curso.", lead_temp: "cold" };
     if (t.includes("dura") || t.includes("tiempo") || t.includes("horas"))
-      return "Cada Curso de Alta Especialización (CAE) son 24 horas académicas en 8 sesiones de 3 horas, una por semana.";
+      return { texto: "Cada Curso de Alta Especialización (CAE) son 24 horas académicas en 8 sesiones de 3 horas, una por semana.", lead_temp: "cold" };
     if (t.includes("certific"))
-      return "Sí. Al completar las horas académicas recibes un certificado emitido por Escale, con certificación ISO 21001.";
+      return { texto: "Sí. Al completar las horas académicas recibes un certificado emitido por Escale, con certificación ISO 21001.", lead_temp: "warm" };
     if (t.includes("precio") || t.includes("cuesta") || t.includes("pago") || t.includes("inversi"))
-      return "Un Curso de Alta Especialización tiene una inversión de S/ 1,980. Las formas de pago te las detalla un asesor. ¿Quieres que te contacte?";
-    return "Buena pregunta. En la versión real te respondo con toda la información de Escale. ¿Quieres que un asesor te contacte hoy?";
+      return { texto: "Un Curso de Alta Especialización tiene una inversión de S/ 1,980. Las formas de pago te las detalla un asesor. ¿Quieres que te contacte?", lead_temp: "hot" };
+    return { texto: "Buena pregunta. En la versión real te respondo con toda la información de Escale. ¿Quieres que un asesor te contacte hoy?", lead_temp: "warm" };
+  }
+
+  // Muestra CTA de escalada cuando Jev detecta lead warm o hot
+  function manejarClasificacion(temp) {
+    if (!temp || temp === "cold" || escalaEscalado) return;
+    estadoLead = temp;
+    escalaEscalado = true;
+    const btn = document.createElement("button");
+    btn.className = "esc-escalada" + (temp === "hot" ? " hot" : "");
+    btn.textContent = temp === "hot"
+      ? "Sí, que me llame un asesor →"
+      : "¿Prefieres hablar con un asesor?";
+    btn.onclick = () => ir("form");
+    $(".esc-msgs").appendChild(btn);
+    $(".esc-msgs").scrollTop = 1e9;
+    track("esc_escalada", { lead_temp: temp });
   }
 
   /* ---------------------------------------------------------------- VOZ (ElevenLabs) */
